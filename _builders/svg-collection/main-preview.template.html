@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>${title}</title>
+    <style>
+        body{
+            --color-success:#d2ff96;
+            --color-dark-grey:#222;
+            --gutter:30px;
+            margin: 20px;
+        }
+        nav{
+            padding-left: var(--gutter);
+            font-family: monospace;
+            font-size: 30px;
+            text-align: center;
+            color: silver;
+        }
+        input#size{
+            border: none;
+            font: inherit;
+            text-align: right;
+            width: 70px;
+            direction: rtl;
+            padding-right: 0;
+            color: #000;
+        }
+
+        code {
+            display: block;
+            font-family: monospace;
+            font-size: 11px;
+            color: hsl(0, 0%, 40%);
+            cursor: copy;
+        }
+        code:hover{
+            background-color: var(--color-success);
+            color: var(--color-dark-grey);
+        }
+        svg:hover{
+            background-color: #000;
+            color: #fff;
+        }
+        .grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .item {
+            position: relative;
+            display: inline-block;
+            margin: var(--gutter);
+            text-align: center;
+            cursor: copy;
+        }
+        .item>svg{
+            display: inline-block;
+            border: 1px solid hsl(0, 0%, 90%);
+            width: 60px;
+            height: 60px;
+            margin-bottom: 10px;
+        }
+        #notify{
+            background-color: var(--color-success);
+            color: var(--color-dark-grey);
+            font-family: sans-serif;
+            font-size: 14px;
+            padding: 8px;
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            border-radius: 4px;
+        }
+        #notify:empty{
+            display: none;
+        }
+    </style>
+
+
+</head>
+<body>
+<nav>
+    <input type="number" step="1" id="size" min="6" max="300" value="60">px
+</nav>
+<div id="icons">
+    <div id="grid" class="grid" ></div>
+</div>
+<div id="notify"></div>
+
+<div style="display: none">
+
+    <div id="svg">${svg}</div>
+
+    <div class="item" id="item-template">
+        <svg><use xlink:href="#bca-close"></use></svg>
+        <code>#</code>
+    </div>
+
+</div>
+</body>
+<script>
+    //generate grid from svg symbols
+    let $svg=document.getElementById("svg");
+    let $grid=document.getElementById("grid");
+    let $notify=document.getElementById("notify");
+    let $symbols=document.querySelectorAll("#svg defs symbol");
+    let $itemTemplate=document.getElementById("item-template");
+    let $size=document.getElementById("size");
+
+    $itemTemplate.removeAttribute("id");
+    for (let s in $symbols){
+        if( $symbols.hasOwnProperty( s ) ) {
+            let id=$symbols[s].id;
+            if(id) {
+                console.log(id);
+                let $item = $itemTemplate.cloneNode(true);
+                let $code=$item.querySelectorAll("code")[0];
+                let $svg=$item.querySelectorAll("svg")[0];
+                $code.textContent = id;
+                $item.querySelectorAll("use")[0].setAttribute('xlink:href', "#" + id);
+                $grid.appendChild($item);
+                $code.addEventListener("click",function(){
+                    copyTextToClipboard(id,"identifiant copié");
+                });
+                $svg.addEventListener("click",function(){
+                    copyTextToClipboard($svg.outerHTML,"code html copié");
+                });
+            }
+        }
+    }
+    function applySize(){
+        let s= $size.value;
+        let $svgs=document.querySelectorAll("#grid svg");
+        console.log("applySize",s);
+        for(let svg of $svgs){
+            svg.style.width=`${s}px`;
+            svg.style.height=`${s}px`;
+        }
+    }
+    $size.addEventListener("input",function(){
+        applySize();
+    });
+
+    /**
+     * This function is used to copy a string to clipboard
+     * @param {string} text
+     * @param {string} notification La notification à afficher quand ça a marché
+     */
+    function copyTextToClipboard(text,notification) {
+        if (window.clipboardData && window.clipboardData.setData) {
+            // IE specific code path to prevent textarea being shown while dialog is visible.
+            return window.clipboardData.setData('Text', text);
+        } else if (document.queryCommandSupported && document.queryCommandSupported('copy')) {
+            const textArea = createTextarea(text);
+            textArea.focus();
+            textArea.select();
+
+            try {
+                const status = document.execCommand('copy'); // Security exception may be thrown by some browsers.
+                if (status) {
+                    createNotification(notification);
+                }
+                return status;
+            } catch (ex) {
+                console.warn('Copy to clipboard failed.', ex);
+                return false;
+            } finally {
+                document.body.removeChild(textArea);
+            }
+        }
+    }
+
+    function createNotification(text){
+        $notify.textContent = text;
+        $notify.classList.add("show");
+        setTimeout(function(){
+            $notify.classList.remove("show");
+            $notify.textContent = "";
+        },2000)
+
+    }
+
+    function createTextarea(text) {
+        const textArea = document.createElement('textarea');
+
+        // Place in top-left corner of screen regardless of scroll position.
+        textArea.style.position = 'fixed';
+        textArea.style.top = 0;
+        textArea.style.left = 0;
+        textArea.style.width = '2em';
+        textArea.style.height = '2em';
+
+        textArea.style.padding = 0;
+
+        // Clean up any borders.
+        textArea.style.border = 'none';
+        textArea.style.outline = 'none';
+        textArea.style.boxShadow = 'none';
+
+        // Avoid flash of white box if rendered for any reason.
+        textArea.style.background = 'transparent';
+
+        textArea.value = text;
+
+        document.body.appendChild(textArea);
+        return textArea;
+    }
+
+</script>
+</html>
