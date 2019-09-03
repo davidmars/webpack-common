@@ -1,0 +1,85 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="stylesheet" href="dist/main.css">
+</head>
+
+<body>
+
+    <h1>Hello world!</h1>
+
+    <ul>
+        <li><a href="page1.html" target="_blank">Page 1</a></li>
+        <li><a href="page2.html" target="_blank">Page 2</a></li>
+    </ul>
+
+    <section>
+        <h1>Les icônes SVG</h1>
+
+        <h2>Collection d'icônes</h2>
+        <p>
+            La liste des icônes par défaut est visible <a href="dist/svg-collection/icon.html" target="_blank">ici</a>.<br>
+            Rajoutez des svg dans le répertoire <code>src/svg-collection-icon/</code> et webpack mettra à jour tout ça.
+        </p>
+
+        <h3>Tailles des icônes</h3>
+        <p>
+            À l'aide des classes <code>.ico-16, .ico-24, .ico-32, .ico-64</code>, vous pouvez changer la taille des icônes dans le HTML.
+        </p>
+
+        <svg class="ico-16">
+            <use xlink:href="dist/svg-collection/icon.svg#icon-sun"/>
+        </svg>
+        <svg class="ico-24">
+            <use xlink:href="dist/svg-collection/icon.svg#icon-sun"/>
+        </svg>
+        <svg class="ico-32">
+            <use xlink:href="dist/svg-collection/icon.svg#icon-sun"/>
+        </svg>
+        <svg class="ico-64">
+            <use xlink:href="dist/svg-collection/icon.svg#icon-sun"/>
+        </svg>
+
+    </section>
+
+    <section>
+        <h1>Typographie</h1>
+        <h2>Custom fonts</h2>
+        <p>Placez vos webfonts dans le répertoire <code>src/fonts</code>.</p>
+        <p>Importez les et stylez les dans <code>src/typography.less</code>.</p>
+    </section>
+
+    <section>
+        <h1>Grid</h1>
+        <h2>Bootstrap</h2>
+        <p>Le système de grille bootstrap peut être utilisé</p>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6 col-md-3 col-lg-1"><hr></div>
+                <div class="col-sm-6 col-md-3 col-lg-1"><hr></div>
+                <div class="col-sm-6 col-md-3 col-lg-1"><hr></div>
+                <div class="col-sm-6 col-md-3 col-lg-1"><hr></div>
+                <div class="col-sm-6 col-md-3 col-lg-1"><hr></div>
+                <div class="col-sm-6 col-md-3 col-lg-1"><hr></div>
+                <div class="col-sm-6 col-md-3 col-lg-1"><hr></div>
+                <div class="col-sm-6 col-md-3 col-lg-1"><hr></div>
+                <div class="col-sm-6 col-md-3 col-lg-1"><hr></div>
+                <div class="col-sm-6 col-md-3 col-lg-1"><hr></div>
+                <div class="col-sm-6 col-md-3 col-lg-1"><hr></div>
+                <div class="col-sm-6 col-md-3 col-lg-1"><hr></div>
+            </div>
+        </div>
+
+    </section>
+
+
+
+    <script src="dist/main.js"></script>
+</body>
+</html>
