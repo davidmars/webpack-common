@@ -7,7 +7,9 @@
     "build-prod-stats": "webpack --config _builders/webpack.prod.js --json > _builders/stats-prod.json",
     "npm-install": "npm install"
   },
-  "dependencies": {},
+  "dependencies": {
+    "jquery": "^3.4.1"
+  },
   "devDependencies": {
     "@babel/cli": "^7.5.5",
     "@babel/core": "^7.5.5",
